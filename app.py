@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,render_template
 import psycopg2
 
 dbcon = psycopg2.connect(
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def form():
-    return "<p>form page</p>"
+    return render_template('submit.html')
 
 @app.route("/results")
 def results():
