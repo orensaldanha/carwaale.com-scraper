@@ -16,6 +16,10 @@ def form():
 @app.route("/results", methods=['GET', 'POST'])
 def results():
     if request.method == 'POST':
+        company = request.form.get('company')
+        if len(company) == 0:
+            company = None
+
         price_starting = float(request.form.get('price_starting'))
         price_topend = float(request.form.get('price_topend'))
 
@@ -45,12 +49,11 @@ def results():
 
         seating_capacity = int(request.form.get('seating_capacity'))
 
-        app.logger.info(price_starting, price_topend, manual, automatic, petrol, diesel, cng, electric, seating_capacity)
-
         SQL = """
             SELECT id, name, company, image, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating_capacity
             FROM cars
-            WHERE price_starting > %s 
+            WHERE company = COALESCE(%s, company)
+                AND price_starting > %s 
                 AND price_topend < %s
                 AND manual = COALESCE(%s, manual)
                 AND automatic = COALESCE(%s, automatic)
@@ -61,13 +64,15 @@ def results():
                 AND seating_capacity = %s;
                 """
 
-        params = (price_starting, price_topend, manual, automatic, petrol, diesel, cng, electric, seating_capacity)
+        params = (company, price_starting, price_topend, manual, automatic, petrol, diesel, cng, electric, seating_capacity)
 
         cur = dbcon.cursor()
 
         cur.execute(SQL, params)
 
         cars = cur.fetchall()
+
+        app.logger.info(cars)
 
         return render_template("result.html", cars=cars)
 
