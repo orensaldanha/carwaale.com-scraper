@@ -16,7 +16,6 @@ def form():
 @app.route("/results", methods=['GET', 'POST'])
 def results():
     if request.method == 'POST':
-        print(request.form)
         price_starting = float(request.form.get('price_starting'))
         price_topend = float(request.form.get('price_topend'))
 
@@ -70,7 +69,7 @@ def results():
 
         cars = cur.fetchall()
 
-        return render_template("result.html", result=cars)
+        return render_template("result.html", cars=cars)
 
 if __name__ == "__main__":
     app.run(debug=True)
