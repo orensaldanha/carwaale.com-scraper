@@ -17,8 +17,6 @@ def form():
 def results():
     if request.method == 'POST':
         company = request.form.get('company')
-        if len(company) == 0:
-            company = None
 
         price_starting = float(request.form.get('price_starting'))
         price_topend = float(request.form.get('price_topend'))
@@ -49,10 +47,10 @@ def results():
 
         seating_capacity = int(request.form.get('seating_capacity'))
 
-        SQL = """
+        car_sql = """
             SELECT id, name, company, image, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating_capacity
             FROM cars
-            WHERE company = COALESCE(%s, company)
+            WHERE company = %s
                 AND price_starting > %s 
                 AND price_topend < %s
                 AND manual = COALESCE(%s, manual)
@@ -64,17 +62,19 @@ def results():
                 AND seating_capacity = %s;
                 """
 
-        params = (company, price_starting, price_topend, manual, automatic, petrol, diesel, cng, electric, seating_capacity)
+        car_params = (company, price_starting, price_topend, manual, automatic, petrol, diesel, cng, electric, seating_capacity)
 
         cur = dbcon.cursor()
 
-        cur.execute(SQL, params)
+        cur.execute(car_sql, car_params)
 
         cars = cur.fetchall()
 
-        app.logger.info(cars)
+        cur.execute("SELECT * FROM company WHERE name=%s", (company,))   
 
-        return render_template("result.html", cars=cars)
+        company = cur.fetchone()
+
+        return render_template("Home.html", company=company,cars=cars)
 
 if __name__ == "__main__":
     app.run(debug=True)
