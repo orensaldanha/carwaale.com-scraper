@@ -7,8 +7,8 @@
     <meta name="description" content="">
     <meta name="page_type" content="np-template-header-footer-from-plugin">
     <title>Home</title>
-    <link rel="stylesheet" href="/media/pratheek/Local Disk/Python/ADP mini project/adp-project-main/static/css/nicepage.css" media="screen">
-<link rel="stylesheet" href="/media/pratheek/Local Disk/Python/ADP mini project/adp-project-main/static/css/Home.css" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Home.css') }}" media="screen">
     <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 4.2.6, nicepage.com">
@@ -30,46 +30,31 @@
     
     <section class="u-align-center u-clearfix u-palette-1-dark-3 u-section-1" id="sec-70e7">
       <div class="u-clearfix u-sheet u-valign-middle-xs u-sheet-1">
-        <h1 class="u-text u-title u-text-1">Toyota Cars</h1>
-        <h1 class="u-text u-text-2"> There are a total of 6 Toyota models currently on sale in India. These include 1&nbsp;<a href="https://www.cardekho.com/new-toyota+hatchback+cars" class="u-active-none u-border-none u-btn u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1">Hatchback</a>, 2&nbsp;<a href="https://www.cardekho.com/new-toyota+suv+cars" class="u-active-none u-border-none u-btn u-button-style u-hover-none u-none u-text-palette-1-base u-btn-2">SUVs</a>, 2&nbsp;<a href="https://www.cardekho.com/new-toyota+muv+cars" class="u-active-none u-border-none u-btn u-button-style u-hover-none u-none u-text-palette-1-base u-btn-3">MUVs</a>&nbsp;and 1&nbsp;<a href="https://www.cardekho.com/new-toyota+sedan+cars" class="u-active-none u-border-none u-btn u-button-style u-hover-none u-none u-text-palette-1-base u-btn-4">Sedan</a>. Toyota has 4 upcoming car launches in India - the Hilux, Land Cruiser, Belta, Rumion.
+        <h1 class="u-text u-title u-text-1">{{ company[1] }} Cars</h1>
+        <h1 class="u-text u-text-2"> 
+          {{ company[2] }}
         </h1>
-        <a href="https://www.cardekho.com/cars/Toyota" class="u-active-white u-border-2 u-border-white u-btn u-button-style u-color-scheme-summer-time u-color-style-multicolor-1 u-custom-font u-font-oswald u-hover-white u-none u-text-active-palette-1-dark-3 u-text-body-alt-color u-text-hover-palette-1-dark-3 u-btn-5">READ MORE</a>
+        <a href="{{ company[3] }}" class="u-active-white u-border-2 u-border-white u-btn u-button-style u-color-scheme-summer-time u-color-style-multicolor-1 u-custom-font u-font-oswald u-hover-white u-none u-text-active-palette-1-dark-3 u-text-body-alt-color u-text-hover-palette-1-dark-3 u-btn-5">READ MORE</a>
         <div class="u-palette-2-base u-shape u-shape-circle u-shape-1"></div>
       </div>
     </section>
     <section class="u-clearfix u-palette-5-dark-3 u-section-2" id="sec-d14a">
       <div class="u-clearfix u-sheet u-sheet-1">
-        <h1 class="u-text u-text-1"> Toyota Car Models</h1>
+        <h1 class="u-text u-text-1"> {{ company[1] }} Car Models</h1>
         <div class="u-expanded-width u-list u-list-1">
           <div class="u-repeater u-repeater-1">
-            <div class="u-container-style u-list-item u-repeater-item">
-              <div class="u-container-layout u-similar-container u-container-layout-1">
-                <img src="/media/pratheek/Local Disk/Python/ADP mini project/adp-project-main/static/img/front-left-side-47.webp" alt="" class="u-image u-image-default u-preserve-proportions u-image-1" data-image-width="480" data-image-height="320">
-                <h2 class="u-text u-text-2">Toyota Fortuner</h2>
-                <h5 class="u-custom-font u-font-pt-sans u-text u-text-3"> Rs.31.39 - 43.43 Lakh*</h5>
-                <a href="https://www.cardekho.com/cars/Toyota" class="u-active-white u-border-1 u-border-white u-btn u-button-style u-hover-white u-none u-text-active-palette-5-dark-3 u-text-body-alt-color u-text-hover-palette-5-dark-3 u-btn-1">more</a>
+            {% for car in cars %}
+              <div class="u-container-style u-list-item u-repeater-item">
+                <div class="u-container-layout u-similar-container u-container-layout-1">
+                  <img src="{{ car[3] }}" alt="" class="u-image u-image-default u-preserve-proportions u-image-1" data-image-width="480" data-image-height="320">
+                  <h2 class="u-text u-text-2">{{ car[1] }}</h2>
+                  <h5 class="u-custom-font u-font-pt-sans u-text u-text-3"> Rs.{{ car[5] }} - {{ car[6] }} Lakh*</h5>
+                  <a href="https://www.cardekho.com/cars/Toyota" class="u-active-white u-border-1 u-border-white u-btn u-button-style u-hover-white u-none u-text-active-palette-5-dark-3 u-text-body-alt-color u-text-hover-palette-5-dark-3 u-btn-1">more</a>
+                </div>
               </div>
-            </div>
-            <div class="u-container-style u-list-item u-repeater-item">
-              <div class="u-container-layout u-similar-container u-container-layout-2">
-                <img src="/media/pratheek/Local Disk/Python/ADP mini project/adp-project-main/static/img/front-left-side-471.webp" alt="" class="u-image u-image-default u-preserve-proportions u-image-2" data-image-width="630" data-image-height="420">
-                <h2 class="u-text u-text-4">Toyota Innova Crysta</h2>
-                <h5 class="u-custom-font u-font-pt-sans u-text u-text-5">Rs.17.30 - 25.32 Lakh*</h5>
-                <a href="https://www.cardekho.com/cars/Toyota" class="u-active-white u-border-1 u-border-white u-btn u-button-style u-hover-white u-none u-text-active-palette-5-dark-3 u-text-body-alt-color u-text-hover-palette-5-dark-3 u-btn-2">more</a>
-              </div>
-            </div>
-            <div class="u-container-style u-list-item u-repeater-item">
-              <div class="u-container-layout u-similar-container u-container-layout-3">
-                <img src="/media/pratheek/Local Disk/Python/ADP mini project/adp-project-main/static/img/front-left-side-473.webp" alt="" class="u-image u-image-default u-preserve-proportions u-image-3" data-image-width="630" data-image-height="420">
-                <h2 class="u-text u-text-6">Toyota Land Cruiser</h2>
-                <h5 class="u-custom-font u-font-pt-sans u-text u-text-7"> Rs1.50 Cr*</h5>
-                <a href="https://www.cardekho.com/cars/Toyota" class="u-active-white u-border-1 u-border-white u-btn u-button-style u-hover-white u-none u-text-active-palette-5-dark-3 u-text-body-alt-color u-text-hover-palette-5-dark-3 u-btn-3">more</a>
-              </div>
-            </div>
+            {% endfor %}
           </div>
         </div>
-        <p class="u-text u-text-8">Image from <a href="https://www.freepik.com/vectors/music" class="u-active-none u-border-1 u-border-black u-btn u-button-link u-button-style u-hover-none u-none u-text-body-color u-btn-4">Freepik</a>
-        </p>
       </div>
     </section>
     
