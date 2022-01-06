@@ -159,7 +159,7 @@
   <h2>Car Search</h2>
   <form class="modal-content animate" action="/results" method="post">
     <div class="container">
-      <label for="uname"><b>Enter Car Name : </b></label><br>
+      <label for="uname"><b>Enter Company Name : </b></label><br>
       <input type="text" placeholder="Enter Company Name....." name="company">
       <br><br>
       <label>
@@ -187,16 +187,10 @@
         <input type="checkbox" name="electric"> Electric
       </label><br /><br>
 
-      <div class="priceslider">
-        <br><label for="price">Price Range(Within): </label><br>
-        <input type="range" min="100000" max="10000000" value="200000" oninput="priceValue.innerText = this.value">
-        <div id="priceValue">200000</div>
-      </div>
-
-      Starting Price: <input type="text" name="price_starting" id="price_starting" placeholder="Enter Starting Price" />
+      Starting Price(In Lacs: Eg: 3.42): <input type="text" name="price_starting" id="price_starting" placeholder="Enter Starting Price" />
             <br />
             <p> </p>
-      TopEnd Price: <input type="text" name="price_topend" id="price_topend" placeholder="Enter Price" />
+      TopEnd Price(In Lacs: Eg: 7.42): <input type="text" name="price_topend" id="price_topend" placeholder="Enter Price" />
       <br />
       <p> </p>
 
