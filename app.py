@@ -29,9 +29,13 @@ def car(id):
 
     car = cur.fetchone()
 
+    cur.execute("SELECT * FROM company WHERE name=%s", (car[2],))
+
+    company = cur.fetchone()
+
     cur.close()
 
-    return render_template('Car.html', car=car)
+    return render_template('Car.html', company=company, car=car)
 
 @app.route("/results", methods=['GET', 'POST'])
 def results():
