@@ -13,6 +13,18 @@ app = Flask(__name__)
 def form():
     return render_template('Car_search.html')
 
+@app.route("/car/<int:id>")
+def car(id):
+    cur = dbcon.cursor()
+
+    cur.execute("SELECT * FROM cars WHERE id=%s", (id,))
+
+    car = cur.fetchone()
+
+    cur.close()
+
+    return render_template('Car.html', car=car)
+
 @app.route("/results", methods=['GET', 'POST'])
 def results():
     if request.method == 'POST':
