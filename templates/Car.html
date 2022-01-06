@@ -10,8 +10,8 @@ the future together, Let&amp;apos;s work together, About Us, Built on a Strong F
   <meta name="description" content="">
   <meta name="page_type" content="np-template-header-footer-from-plugin">
   <title>Car</title>
-  <link rel="stylesheet" href="/static/css/car_page.css" media="screen">
-  <link rel="stylesheet" href="/Page-1.css" media="screen">
+  <link rel="stylesheet" href="{{ url_for('static',filename='car_page.css') }}" media="screen">
+  <link rel="stylesheet" href="{{ url_for('static',filename='Page-1.css') }}" media="screen">
   <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
   <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
   <meta name="generator" content="Nicepage 4.2.6, nicepage.com">
@@ -82,15 +82,16 @@ the future together, Let&amp;apos;s work together, About Us, Built on a Strong F
           <div class="u-align-center u-container-style u-list-item u-repeater-item u-video-cover u-white">
             <div class="u-container-layout u-similar-container u-container-layout-2">
               <div alt="" class="u-image u-image-circle u-image-2" data-image-width="200" data-image-height="200"></div>
-              <h4 class="u-text u-text-4">Transmission:{{car[10]}}</h4>
+              <h4 class="u-text u-text-4">Transmission:</h4>
               <h4 class="u-text u-text-5"> Manual: {{car[9]}}</h4>
+              <h4 class="u-text u-text-5"> Automatic: {{car[10]}}</h4>
             </div>
           </div>
           <div class="u-align-center u-container-style u-list-item u-repeater-item u-video-cover u-white">
             <div class="u-container-layout u-similar-container u-container-layout-3">
               <div alt="" class="u-image u-image-circle u-image-3" data-image-width="512" data-image-height="512"></div>
               <h4 class="u-text u-text-6">Fuel Type : {{car[9]}}</h4>
-              <h4 class="u-text u-text-7"> Petrol :{{car[11]}}; Diesel:{{car[12]}} ; CNG:{{car[13]}};
+              <h4 class="u-text u-text-7"> Petrol :{{car[11]}} Diesel:{{car[12]}} CNG:{{car[13]}}
                 Electric:{{car[14]}}</h4>
             </div>
           </div>
