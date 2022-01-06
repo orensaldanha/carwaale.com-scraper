@@ -5,6 +5,7 @@ import time
 import csv 
 import sys
 import psycopg2
+import openpyxl
 
 def get_soup(url, write_file=False):
     page = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -39,53 +40,64 @@ def write_db(dbcon, name, company, image, summary, price_starting, price_topend,
 
     dbcon.commit()
 
-def export_xlsx(dbcon):
-    pass
+def write_excel(name, company, image, summary, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating):
+    try:
+        wb = openpyxl.load_workbook('cars.xlsx')
+        sheet=wb.active
+        sheet.append([name, company, image, summary, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating])
+        wb.save('cars.xlsx')
+    except (FileNotFoundError, openpyxl.exceptions.InvalidFileException):
+        wb=openpyxl.Workbook()
+        sheet= wb.active
+        sheet.title='CAR DETAILS'
+        column_names=['NAME', 'COMPANY', 'IMAGE', 'SUMMARY', 'PRICE_STARTING', 'PRICE_TOPEND', 'MILEAGE_L', 'MILEAGE_U', 'MANUAL', 'AUTOMATIC', 'PETROL', 'DIESEL', 'CNG', 'ELECTRIC', 'SEATING']        
+        for i in range(len(column_names)):
+            sheet.cell(row=1,column=i+1).value=column_names[i]
+        sheet.append([name, company, image, summary, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating])
+        wb.save('cars.xlsx')
 
 def log_done(company):
     file = open('log.txt', 'a')
     file.write('\nScraped: ' + company)
     file.close()
 
-def scrape_car_company(dbcon, company_url, company, car=False):
-    if not car:
-        domain = 'https://www.carwale.com'
+def scrape_car_company(dbcon, company_url, company, output):
+    domain = 'https://www.carwale.com'
 
-        print('Scraping ' + company)
+    print('Scraping ' + company)
 
-        soup = get_soup(company_url)
+    soup = get_soup(company_url)
 
-        car_urls = []
+    car_urls = []
 
-        li_tags = soup.find_all('li', class_='o-fzptUA')
-        for li_tag in li_tags: #o-cpnuEd o-SoIQT o-eZTujG o-fzpilz
-            if li_tag.find(class_='o-fzoTov'):
-                print('Skipping: ' + li_tag.find('a', class_='o-fzoHMp')['href'])
-                continue
+    li_tags = soup.find_all('li', class_='o-fzptUA')
+    for li_tag in li_tags: 
+        if li_tag.find(class_='o-fzoTov'):
+            print('Skipping: ' + li_tag.find('a', class_='o-fzoHMp')['href'])
+            continue
 
-            if li_tag.find('a', class_='o-fzoHMp'):
-                car_url = domain + li_tag.find('a', class_='o-fzoHMp')['href']
-            elif li_tag.find('a', class_='o-fzpilz'):
-                car_url = domain + li_tag.find('a', class_='o-fzpilz')['href']
+        if li_tag.find('a', class_='o-fzoHMp'):
+            car_url = domain + li_tag.find('a', class_='o-fzoHMp')['href']
+        elif li_tag.find('a', class_='o-fzpilz'):
+            car_url = domain + li_tag.find('a', class_='o-fzpilz')['href']
 
-            car_urls.append(car_url)
-            print(car_url)
-    else:
-        car_urls = [company_url]
+        car_urls.append(car_url)
+        print(car_url)
+  
 
     for car_url in car_urls:    
         print('Scraping ' + car_url)
-        soup = get_soup(car_url, write_file=True)
+        soup = get_soup(car_url, write_file=False)
 
         name = soup.find('h1', class_="o-eqqVmt").find(text=True, recursive=False)
 
         image = soup.find('img', class_="o-bXKmQE")['src']
 
-        summary = soup.find('div', class_="o-fzpilz").text
+        summary = soup.find('div', class_="o-fyWCgU").text.strip()
 
         priceRegex = re.compile(r'[0-9]+\.[0-9]+')
 
-        price = priceRegex.findall(soup.find('p', class_='o-fyWCgU').text)
+        price = priceRegex.findall(soup.find('div', class_='o-fyWCgU').text)
         price_starting = float(price[0])
         price_topend = float(price[1])
 
@@ -159,26 +171,39 @@ def scrape_car_company(dbcon, company_url, company, car=False):
         else:
             seating = 5
 
-        write_db(dbcon, name, company, image, summary, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating)
+        if output == 1:
+            write_db(dbcon, name, company, image, summary, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating)
+        elif output == 2:
+            write_csv(name, company, image, summary, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating)
+        else:
+            write_excel(name, company, image, summary, price_starting, price_topend, mileage_l, mileage_u, manual, automatic, petrol, diesel, cng, electric, seating)
 
         time.sleep(5)
 
     log_done(company)
 
 if __name__ == "__main__":
-    company_url = sys.argv[1]
-    company = sys.argv[2]
-    car = sys.argv[3]
+    print("Carwale.com Scraper: ")
 
-    dbcon = psycopg2.connect(
-        user='rwozksuc', 
-        password='3nv4b-4aaJb5bx0--2hIAZeoYVXateTm',
-        database='rwozksuc', 
-        host='john.db.elephantsql.com')   
+    company_url = input('Enter car company url: ')
+    company = input('Enter company name: ')
 
-    if car is '0':
-        scrape_car_company(dbcon, company_url, company, False)
-    elif car is '1':
-        scrape_car_company(dbcon, company_url, company, True)
+    print('Enter where you want to scrape data to:\n1.Database\n2.CSV File\n3.Excel File')
+    output = int(input('Enter choice: '))
 
-    dbcon.close()
+    if output in [2,3]:
+        dbcon = None
+    elif output == 1:
+        dbcon = psycopg2.connect(
+            user='rwozksuc', 
+            password='3nv4b-4aaJb5bx0--2hIAZeoYVXateTm',
+            database='rwozksuc', 
+            host='john.db.elephantsql.com')   
+    else:
+        print('Invalid choice')
+        sys.exit()
+
+    scrape_car_company(dbcon, company_url, company, output)
+
+    if output == 1:
+        dbcon.close()
