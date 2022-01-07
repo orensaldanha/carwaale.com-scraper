@@ -48,8 +48,8 @@
                 <div class="u-container-layout u-similar-container u-container-layout-1">
                   <img src="{{ car[3] }}" alt="" class="u-image u-image-default u-preserve-proportions u-image-1" data-image-width="480" data-image-height="320">
                   <h2 class="u-text u-text-2">{{ car[1] }}</h2>
-                  <h5 class="u-custom-font u-font-pt-sans u-text u-text-3"> Rs.{{ car[5] }} - {{ car[6] }} Lakh*</h5>
-                  <a href="https://www.cardekho.com/cars/Toyota" class="u-active-white u-border-1 u-border-white u-btn u-button-style u-hover-white u-none u-text-active-palette-5-dark-3 u-text-body-alt-color u-text-hover-palette-5-dark-3 u-btn-1">more</a>
+                  <h5 class="u-custom-font u-font-pt-sans u-text u-text-3"> Rs.{{ car[4] }} - {{ car[5] }} Lakh*</h5>
+                  <a href="{{ 'http://localhost:5000/car/' ~ car[0 ]}}" class="u-active-white u-border-1 u-border-white u-btn u-button-style u-hover-white u-none u-text-active-palette-5-dark-3 u-text-body-alt-color u-text-hover-palette-5-dark-3 u-btn-1">more</a>
                 </div>
               </div>
             {% endfor %}
