@@ -6,6 +6,12 @@ import csv
 import sys
 import psycopg2
 import openpyxl
+import os 
+
+DB_USER_NAME = os.environ['DB_USER_NAME']
+DB_PASSWORD = os.environ['DB_PASSWORD']
+DB_DATABASE = os.environ['DB_DATABASE']
+DB_HOST = os.environ['DB_HOST']
 
 def get_soup(url, write_file=False):
     #Return a BeautifulSoup4 if request to url is successful
@@ -238,11 +244,11 @@ if __name__ == "__main__":
         dbcon = None
     elif output == 1:
         #Database connection string
-        dbcon = psycopg2.connect(
-            user='rwozksuc', 
-            password='3nv4b-4aaJb5bx0--2hIAZeoYVXateTm',
-            database='rwozksuc', 
-            host='john.db.elephantsql.com')   
+            dbcon = psycopg2.connect(
+            user=DB_USER_NAME,
+            password=DB_PASSWORD,
+            database=DB_DATABASE,
+            host=DB_HOST)  
     else:
         print('Invalid choice')
         sys.exit()

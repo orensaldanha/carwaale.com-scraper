@@ -5,13 +5,19 @@ import json
 from decimal import Decimal
 from docx import Document
 from io import BytesIO
+import os
+
+DB_USER_NAME = os.environ['DB_USER_NAME']
+DB_PASSWORD = os.environ['DB_PASSWORD']
+DB_DATABASE = os.environ['DB_DATABASE']
+DB_HOST = os.environ['DB_HOST']
 
 #Databse connection string
 dbcon = psycopg2.connect(
-        user='rwozksuc',
-        password='3nv4b-4aaJb5bx0--2hIAZeoYVXateTm',
-        database='rwozksuc',
-        host='john.db.elephantsql.com')
+        user=DB_USER_NAME,
+        password=DB_PASSWORD,
+        database=DB_DATABASE,
+        host=DB_HOST)
 
 #Create flask app object
 app = Flask(__name__)
